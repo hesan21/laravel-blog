@@ -12,7 +12,12 @@ class UserController extends Controller
     {
         $blogsQry = Blog::query();
 
-        $blogsQry->when($request->keyword, fn ($query) => $query->where('title', 'LIKE', '%'.$request->keyword.'%'));
+        $blogsQry->when(
+            $request->keyword,
+            fn ($query) =>
+                $query->where('title', 'LIKE', '%'.$request->keyword.'%')
+                    ->orWhere('body', 'LIKE', '%'.$request->keyword.'%')
+            );
         $blogs = $blogsQry->latest()->paginate(5);
 
         return view('dashboard', compact('blogs'));
