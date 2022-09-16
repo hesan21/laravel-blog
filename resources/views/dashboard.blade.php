@@ -21,14 +21,21 @@
                 <hr>
             </div>
 
+            @if(!count($blogs))
+                <div class="text-red-600 text-2xl text-center font-bold">
+                    No Blog Post Found.
+                </div>
+            @endif
+
+            @foreach ($blogs as $blog)
             <div class="bg-white my-2 overflow-hidden shadow-sm sm:rounded-lg hover:shadow-lg ease-in-out duration-300 cursor-pointer lg:flex lg:align-center">
                 <img
                     class="w-full max-h-52 lg:w-1/4 object-contain bg-gray-200"
-                    src="{{ asset('blogs/dummy.png') }}" alt="" />
+                    src="{{ $blog->image ? asset($blog->image->file_path) : asset('blogs/dummy.png')}}" alt="" />
 
                 <div class="w-full lg:w-3/4 p-4">
                     <h3 class="text-2xl font-bold">
-                        Blog Title
+                        {{ $blog->title }}
                     </h3>
 
                     <p class="p-3 text-gray-500">
@@ -36,23 +43,22 @@
                         <a
                             class="text-blue-800 underline hover:text-blue-500"
                             href="{{ route('profile', auth()->id()) }}">
-                            John Doe
+                            {{ $blog->creator->name }}
                         </a>
                     </p>
 
                     <p>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                        when an unknown printer took a galley of type and scrambled it to make a
-                        type specimen book. It has survived not only five centuries, but also the
-                        leap into electronic typesetting, remaining essentially unchanged.
+                        {!! Str::limit($blog->body, 275) !!}
                     </p>
 
-                    <x-link href="{{ route('blogs.show', 1) }}">
+                    <x-link href="{{ route('blogs.show', $blog->id) }}">
                         View full Blog
                     </x-link>
                 </div>
             </div>
+            @endforeach
+
+            {{ $blogs->links() }}
         </div>
 
         <div class="hidden lg:block lg:w-1/4 p-4">
