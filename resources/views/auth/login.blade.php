@@ -51,6 +51,10 @@
                     {{ __('Log in') }}
                 </x-button>
             </div>
+
+            <x-link href="{{ route('register') }}" class="w-full my-2 justify-center">
+                Create an Account
+            </x-link>
         </form>
     </x-auth-card>
 </x-guest-layout>
