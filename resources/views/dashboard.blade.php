@@ -31,7 +31,7 @@
             <div class="bg-white my-2 overflow-hidden shadow-sm sm:rounded-lg hover:shadow-lg ease-in-out duration-300 cursor-pointer lg:flex lg:align-center">
                 <img
                     class="w-full max-h-52 lg:w-1/4 object-contain bg-gray-200"
-                    src="{{ $blog->image ? asset($blog->image->file_path) : asset('blogs/dummy.png')}}" alt="" />
+                    src="{{ $blog->image ? asset($blog->image->path) : asset('blogs/dummy.png')}}" alt="" />
 
                 <div class="w-full lg:w-3/4 p-4">
                     <h3 class="text-2xl font-bold">

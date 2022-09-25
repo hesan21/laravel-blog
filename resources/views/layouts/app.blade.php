@@ -26,5 +26,7 @@
                 Created by: Hesan Naveed
             </footer>
         </div>
+
+        @stack('scripts')
     </body>
 </html>

@@ -28,7 +28,7 @@ class BlogController extends Controller
         ]);
 
         $attrs = $request->only(app(Blog::class)->getFillable());
-        $attrs['creator_id'] = auth()->id;
+        $attrs['creator_id'] = auth()->id();
 
         $blog = Blog::create($attrs);
 
@@ -75,8 +75,8 @@ class BlogController extends Controller
         $blog->update($attrs);
 
         if($request->hasFile('image')) {
-            if($blog->image && File::exists($blog->image->file_path)) {
-                File::delete($blog->image->file_path);
+            if($blog->image && File::exists($blog->image->path)) {
+                File::delete($blog->image->path);
             }
 
             $image = $request->file('image');
@@ -96,8 +96,8 @@ class BlogController extends Controller
 
     public function delete(Blog $blog)
     {
-        if($blog->image && File::exists($blog->image->file_path)) {
-            File::delete($blog->image->file_path);
+        if($blog->image && File::exists($blog->image->path)) {
+            File::delete($blog->image->path);
         }
 
         $blog->delete();

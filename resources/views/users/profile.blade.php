@@ -38,7 +38,7 @@
                 <div class="w-full lg:w-1/2 mt-6 px-6 py-4 shadow-md sm:rounded-lg hover:shadow-lg">
                     <img
                         class="max-w-full max-h-52 mx-auto"
-                        src="{{ $blog->image ? asset($blog->image->file_path) : asset('blogs/dummy.png')}}" alt="">
+                        src="{{ $blog->image ? asset($blog->image->path) : asset('blogs/dummy.png')}}" alt="">
 
                     <hr class="my-2">
 
@@ -50,7 +50,7 @@
                                 View
                             </x-link>
 
-                            @if (3 === auth()->id())
+                            @if ($blog->creator_id === auth()->id())
                                 <form class="mx-1" action="{{ route('blogs.delete', $blog->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
