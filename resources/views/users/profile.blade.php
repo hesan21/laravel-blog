@@ -51,10 +51,10 @@
                             </x-link>
 
                             @if ($blog->creator_id === auth()->id())
-                                <form class="mx-1" action="{{ route('blogs.delete', $blog->id) }}" method="POST">
+                                <form id="deleteBlogForm" class="mx-1" action="{{ route('blogs.delete', $blog->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <x-button>
+                                    <x-button onclick="showModal(event)">
                                         Delete
                                     </x-button>
                                 </form>
