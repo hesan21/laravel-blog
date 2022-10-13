@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BlogRequest;
 use App\Models\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -15,34 +16,12 @@ class BlogController extends Controller
         return view('blogs.create');
     }
 
-    public function store(Request $request)
+    public function store(BlogRequest $request)
     {
-        $request->validate([
-            'title' => 'required',
-            'body' => 'required',
-            'image' => [
-                'sometimes',
-                'mimes:png,jpg,jpeg',
-                'nullable'
-            ]
-        ]);
-
         $attrs = $request->only(app(Blog::class)->getFillable());
         $attrs['creator_id'] = auth()->id();
 
         $blog = Blog::create($attrs);
-
-        if($request->hasFile('image')) {
-            $image = $request->file('image');
-            $extension = $image->getClientOriginalExtension();
-            $filePath = $image->storeAs('public/blogs', Str::random(5).'.'.$extension);
-
-            $storagePath = Storage::url($filePath);
-
-            $blog->image()->create([
-                'path' => $storagePath
-            ]);
-        }
 
         return redirect(route('dashboard'))
                     ->with('message', 'Blog Created Successfully!');

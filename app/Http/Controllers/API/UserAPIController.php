@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Models\Blog;
 use App\Models\User;
 use Illuminate\Http\Response;
@@ -14,9 +15,10 @@ class UserAPIController extends Controller
         $blogs = Blog::where('creator_id', $user->id)->paginate(6);
         $user->blogs = $blogs;
 
-        return response()->json([
-            'success' => true,
-            'data' => $user
-        ], Response::HTTP_OK);
+        return response()->success(
+            UserResource::make($user),
+            '',
+            200
+        );
     }
 }
